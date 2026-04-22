@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="main-pg">
+        {% if user.is_authenticated %}
+        <div class="btn btn-primary signout-btn">
+           <a href="{% url 'logout' %}?next={% url 'portfolio_list' %}" class="submitform logout-logo">Sign out</a>
+        </div>
+        {% else %}
+        <div class="btn btn-primary signin-btn">
+            <a href="{% url 'login' %}?next={% url 'portfolio_list' %}" class="submitform login-logo">Sign in</a>
+        </div>
+        {% endif %}
+        <div class="home-connect">
+            <a href="https://www.instagram.com/the.junegirl/" class="fa fa-instagram"></a>
+            <a href="#" class="fa fa-snapchat-ghost"></a>
+            <a href="https://www.facebook.com/mestryanuja/" class="fa fa-facebook"></a>
+            <a href="https://www.linkedin.com/in/anuja-mestry1994/" class="fa fa-linkedin"></a>
+        </div>
+        <div class="personal-info">
+            <div class="me">
+                <h1>I'm Anuja Mestry</h1>
+                <p>
+                   Welcome to my creative space! I'm a passionate software developer with a focus on frontend.<br>
+                   Explore my portfolio to see my recent projects and meet my team members.
+                </p>
+            </div>
+            <div class="row p-content">
+                <div class="personal-info-left col-md-6">
+                    <div class="col-12">
+                        <h2>Education</h2>
+                            <p>
+                                Masters in Science in Information Technology - University College Dublin, Ireland
+                            </p>
+                    </div>
+                    <div class="col-12">
+                        <h2>Work Experience</h2>
+                            <ul>
+                                <li>BTS- Strategy Alignment and Execution Pvt. Ltd.</li>
+                                <li>2016: Trainee Developer</li>
+                                <li>2017: Associate Developer</li>
+                                <li>2018: Developer</li>
+                                <li>2019-2021: Senior Developer</li>
+                                <li>2022-2023: Lead Developer</li>
+                            </ul>
+                    </div>
+                </div>
+                <div class="personal-info-right col-md-6">
+                    <div class="skills">
+                        <h2>Skills</h2>
+                        <ul>
+                            <li>Web Development</li>
+                            <li>Programming Languages: HTML, CSS, JavaScript, Python, Angular, AngularJS, SQL</li>
+                        </ul>
+                    </div>
+                    <div class="contact">
+                        <h2>Contact Me</h2>
+                        <p>Feel free to reach out to me through email or phone. I'm open to new opportunities and collaborations.</p>
+                        <p>Email: anuja.d.mestry@ucdconnect.ie</p>
+                        <p>Phone: +123 456 7890</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="projects-header">My Projects</div>
+        <span>
+        <div class="portfolio-add">
+            <a href="{% url 'add_portfolio' %}" class="btn btn-primary portfolio-add-btn">Add a Project</a>
+        </div>
+        </span>
+        <div class="projects-container">
+            <div id="myCarousel" class="carousel slide">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    {% for list in project_list %}
+                    <li data-target="#myCarousel" data-slide-to="{{ forloop.counter0 }}"
+                        class="{% if forloop.first %}active{% endif %}"></li>
+                    {% endfor %}
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    {% for list in project_list %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="container">
+                            <div class="row">
+                                    <div class="content-image">
+                                        <img src="https://anujamestry.pythonanywhere.com/{{list.image.url}}" style="max-width: 100%; height: auto;">
+                                    </div>
+                                <div class="content-right">
+                                    <div class="content-button-container">
+                                        <span><a href="{% url 'edit_project' pk=list.pk %}" class="content-edit"></a></span>
+                                        <span><a href="{% url 'delete_project' pk=list.pk %}" class="content-delete"></a></span>
+                                    </div>
+                                    <div class="content">
+                                        <div class="content-desc">
+                                        <p class="content-header">Product</p>
+                                        <p>{{ list.title }}</p>
+                                        <p>{{ list.description }}</p>
+                                        </div>
+                                        <div class="content-collab">
+                                            <p class="content-header">My Team</p>
+                                            <p>{{ list.collaborators }}</p>
+                                        </div>
+                                        <div class="content-tech">
+                                            <p class="content-header">Technologies used</p>
+                                            <p>{{ list.technologies }}</p>
+                                        </div>
+                                        <div class="content-fb">
+                                            <p class="content-header">Client says</p>
+                                            <blockquote>{{ list.feedback }}</blockquote>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Left and right controls -->
+                <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
