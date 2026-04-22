@@ -1,158 +1,822 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Anuja Mestry – Solutions Engineer & Frontend Developer based in Dublin, Ireland.">
+    <title>Anuja Mestry – Solutions Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+        :root {
+            --bg: #0a0a0f;
+            --bg2: #111118;
+            --card: #16161f;
+            --border: #24242f;
+            --accent: #6ee7b7;
+            --accent2: #818cf8;
+            --text: #f0f0f5;
+            --muted: #8888a0;
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── NOISE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 4rem;
+            background: rgba(10,10,15,0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        .nav-auth a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            transition: all 0.2s;
+        }
+
+        .nav-auth a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 4rem 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(110,231,183,0.08) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+            pointer-events: none;
+        }
+
+        .hero-glow2 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(129,140,248,0.06) 0%, transparent 70%);
+            bottom: 0;
+            left: 200px;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(110,231,183,0.08);
+            border: 1px solid rgba(110,231,183,0.2);
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.35rem 0.9rem;
+            border-radius: 100px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-tag::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .line2 { color: var(--muted); }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--muted);
+            max-width: 520px;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-custom {
+            background: var(--accent);
+            color: #0a0a0f;
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.75rem 1.8rem;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary-custom:hover {
+            background: #a7f3d0;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-custom {
+            background: transparent;
+            color: var(--text);
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 0.9rem;
+            padding: 0.75rem 1.8rem;
+            border-radius: 100px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .btn-outline-custom:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .social-links a {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--muted);
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .social-links a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* ── SECTIONS ── */
+        section {
+            padding: 6rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 3rem;
+        }
+
+        /* ── ABOUT ── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1100px;
+        }
+
+        .about-text p {
+            color: var(--muted);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .about-text p strong { color: var(--text); font-weight: 500; }
+
+        .timeline {
+            list-style: none;
+        }
+
+        .timeline li {
+            display: flex;
+            gap: 1rem;
+            padding-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .timeline li:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 24px;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .timeline-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .timeline-year {
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .timeline-role {
+            font-size: 0.9rem;
+            color: var(--text);
+            font-weight: 400;
+        }
+
+        .timeline-company {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        /* ── SKILLS ── */
+        .skills-section { background: var(--bg2); }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 900px;
+        }
+
+        .skill-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            transition: border-color 0.2s;
+        }
+
+        .skill-card:hover { border-color: rgba(110,231,183,0.3); }
+
+        .skill-card-title {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: 100px;
+        }
+
+        /* ── PROJECTS ── */
+        .projects-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .project-card:hover {
+            border-color: rgba(110,231,183,0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            background: var(--bg2);
+        }
+
+        .project-body {
+            padding: 1.5rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .tech-tag {
+            background: rgba(110,231,183,0.08);
+            border: 1px solid rgba(110,231,183,0.15);
+            color: var(--accent);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+            text-transform: uppercase;
+        }
+
+        .project-title {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .project-desc {
+            color: var(--muted);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-team {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .project-team span { color: var(--text); }
+
+        .project-feedback {
+            border-left: 2px solid var(--accent);
+            padding-left: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 1.2rem;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .project-actions a {
+            font-size: 0.78rem;
+            padding: 0.35rem 0.9rem;
+            border-radius: 100px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            transition: all 0.2s;
+        }
+
+        .project-actions a:hover {
+            border-color: var(--accent2);
+            color: var(--accent2);
+        }
+
+        /* ── CONTACT ── */
+        .contact-section { background: var(--bg2); }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 900px;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            background: rgba(110,231,183,0.08);
+            border: 1px solid rgba(110,231,183,0.15);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .contact-label {
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-value {
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .contact-value a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contact-value a:hover { color: var(--accent); }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align: center;
+            padding: 2rem 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .hero, section { padding: 5rem 1.5rem 3rem; }
+            .about-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.8rem; }
+        }
+    </style>
 </head>
-
 <body>
-    <div class="main-pg">
-        {% if user.is_authenticated %}
-        <div class="btn btn-primary signout-btn">
-           <a href="{% url 'logout' %}?next={% url 'portfolio_list' %}" class="submitform logout-logo">Sign out</a>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-logo">AM<span>.</span></a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-auth">
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}?next={% url 'portfolio_list' %}">Sign out</a>
+            {% else %}
+                <a href="{% url 'login' %}?next={% url 'portfolio_list' %}">Sign in</a>
+            {% endif %}
         </div>
-        {% else %}
-        <div class="btn btn-primary signin-btn">
-            <a href="{% url 'login' %}?next={% url 'portfolio_list' %}" class="submitform login-logo">Sign in</a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-glow"></div>
+        <div class="hero-glow2"></div>
+        <div class="hero-content">
+            <div class="hero-tag">Available for opportunities</div>
+            <h1>
+                Anuja Mestry<br>
+                <span class="line2">Solutions Engineer</span>
+            </h1>
+            <p class="hero-desc">
+                I bridge the gap between technical complexity and client success —
+                building elegant solutions and translating them into outcomes that matter.
+            </p>
+            <div class="hero-ctas">
+                <a href="#projects" class="btn-primary-custom">View My Work</a>
+                <a href="#contact" class="btn-outline-custom">Get in Touch</a>
+            </div>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/anuja-mestry1994/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/mestryanuja-create" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.instagram.com/the.junegirl/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/mestryanuja/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            </div>
         </div>
-        {% endif %}
-        <div class="home-connect">
-            <a href="https://www.instagram.com/the.junegirl/" class="fa fa-instagram"></a>
-            <a href="#" class="fa fa-snapchat-ghost"></a>
-            <a href="https://www.facebook.com/mestryanuja/" class="fa fa-facebook"></a>
-            <a href="https://www.linkedin.com/in/anuja-mestry1994/" class="fa fa-linkedin"></a>
-        </div>
-        <div class="personal-info">
-            <div class="me">
-                <h1>I'm Anuja Mestry</h1>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="section-label">Who I am</div>
+        <div class="section-title">About Me</div>
+        <div class="about-grid">
+            <div class="about-text">
                 <p>
-                   Welcome to my creative space! I'm a passionate software developer with a focus on frontend.<br>
-                   Explore my portfolio to see my recent projects and meet my team members.
+                    I'm a <strong>Solutions Engineer</strong> with a background in full-stack development
+                    and client-facing delivery. I spent 7+ years at BTS building and leading development
+                    teams, and recently completed my <strong>MSc in Information Technology</strong> at
+                    University College Dublin.
+                </p>
+                <p>
+                    I thrive in roles where I get to understand a client's problem deeply,
+                    architect the right solution, and see it through to a successful outcome.
+                </p>
+                <p>
+                    Outside of work I'm into frontend craft, building side projects,
+                    and exploring new tech stacks.
                 </p>
             </div>
-            <div class="row p-content">
-                <div class="personal-info-left col-md-6">
-                    <div class="col-12">
-                        <h2>Education</h2>
-                            <p>
-                                Masters in Science in Information Technology - University College Dublin, Ireland
-                            </p>
-                    </div>
-                    <div class="col-12">
-                        <h2>Work Experience</h2>
-                            <ul>
-                                <li>BTS- Strategy Alignment and Execution Pvt. Ltd.</li>
-                                <li>2016: Trainee Developer</li>
-                                <li>2017: Associate Developer</li>
-                                <li>2018: Developer</li>
-                                <li>2019-2021: Senior Developer</li>
-                                <li>2022-2023: Lead Developer</li>
-                            </ul>
-                    </div>
+            <div>
+                <ul class="timeline">
+                    <li>
+                        <div class="timeline-dot"></div>
+                        <div>
+                            <div class="timeline-year">2022 – 2023</div>
+                            <div class="timeline-role">Lead Developer</div>
+                            <div class="timeline-company">BTS – Strategy Alignment & Execution</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-dot"></div>
+                        <div>
+                            <div class="timeline-year">2019 – 2021</div>
+                            <div class="timeline-role">Senior Developer</div>
+                            <div class="timeline-company">BTS – Strategy Alignment & Execution</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-dot"></div>
+                        <div>
+                            <div class="timeline-year">2016 – 2018</div>
+                            <div class="timeline-role">Developer → Senior</div>
+                            <div class="timeline-company">BTS – Strategy Alignment & Execution</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-dot"></div>
+                        <div>
+                            <div class="timeline-year">2023 – 2024</div>
+                            <div class="timeline-role">MSc Information Technology</div>
+                            <div class="timeline-company">University College Dublin, Ireland</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="skills-section">
+        <div class="section-label">What I bring</div>
+        <div class="section-title">Skills</div>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-card-title">⚡ Technical</div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Django</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Angular</span>
+                    <span class="skill-tag">HTML / CSS</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">REST APIs</span>
+                    <span class="skill-tag">Git</span>
                 </div>
-                <div class="personal-info-right col-md-6">
-                    <div class="skills">
-                        <h2>Skills</h2>
-                        <ul>
-                            <li>Web Development</li>
-                            <li>Programming Languages: HTML, CSS, JavaScript, Python, Angular, AngularJS, SQL</li>
-                        </ul>
-                    </div>
-                    <div class="contact">
-                        <h2>Contact Me</h2>
-                        <p>Feel free to reach out to me through email or phone. I'm open to new opportunities and collaborations.</p>
-                        <p>Email: anuja.d.mestry@ucdconnect.ie</p>
-                        <p>Phone: +123 456 7890</p>
-                    </div>
+            </div>
+            <div class="skill-card">
+                <div class="skill-card-title">🤝 Client-Facing</div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Solution Scoping</span>
+                    <span class="skill-tag">Client Demos</span>
+                    <span class="skill-tag">Onboarding</span>
+                    <span class="skill-tag">Documentation</span>
+                    <span class="skill-tag">Stakeholder Mgmt</span>
+                    <span class="skill-tag">Requirements Analysis</span>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="projects-header">My Projects</div>
-        <span>
-        <div class="portfolio-add">
-            <a href="{% url 'add_portfolio' %}" class="btn btn-primary portfolio-add-btn">Add a Project</a>
+    <!-- PROJECTS -->
+    <section id="projects">
+        <div class="projects-header-row">
+            <div>
+                <div class="section-label">What I've built</div>
+                <div class="section-title" style="margin-bottom:0">My Projects</div>
+            </div>
+            {% if user.is_authenticated %}
+            <a href="{% url 'add_portfolio' %}" class="btn-primary-custom">+ Add Project</a>
+            {% endif %}
         </div>
-        </span>
-        <div class="projects-container">
-            <div id="myCarousel" class="carousel slide">
-                <!-- Indicators -->
-                <ol class="carousel-indicators">
-                    {% for list in project_list %}
-                    <li data-target="#myCarousel" data-slide-to="{{ forloop.counter0 }}"
-                        class="{% if forloop.first %}active{% endif %}"></li>
-                    {% endfor %}
-                </ol>
 
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner">
-                    {% for list in project_list %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <div class="container">
-                            <div class="row">
-                                    <div class="content-image">
-                                        <img src="https://anujamestry.pythonanywhere.com/{{list.image.url}}" style="max-width: 100%; height: auto;">
-                                    </div>
-                                <div class="content-right">
-                                    <div class="content-button-container">
-                                        <span><a href="{% url 'edit_project' pk=list.pk %}" class="content-edit"></a></span>
-                                        <span><a href="{% url 'delete_project' pk=list.pk %}" class="content-delete"></a></span>
-                                    </div>
-                                    <div class="content">
-                                        <div class="content-desc">
-                                        <p class="content-header">Product</p>
-                                        <p>{{ list.title }}</p>
-                                        <p>{{ list.description }}</p>
-                                        </div>
-                                        <div class="content-collab">
-                                            <p class="content-header">My Team</p>
-                                            <p>{{ list.collaborators }}</p>
-                                        </div>
-                                        <div class="content-tech">
-                                            <p class="content-header">Technologies used</p>
-                                            <p>{{ list.technologies }}</p>
-                                        </div>
-                                        <div class="content-fb">
-                                            <p class="content-header">Client says</p>
-                                            <blockquote>{{ list.feedback }}</blockquote>
-                                        </div>
-                                    </div>
+        <div class="projects-grid">
+            {% for list in project_list %}
+            <div class="project-card" style="animation-delay: {{ forloop.counter0 }}00ms">
+                <img
+                    src="https://anujamestry.pythonanywhere.com/{{ list.image.url }}"
+                    alt="{{ list.title }}"
+                    class="project-image"
+                    onerror="this.style.display='none'"
+                >
+                <div class="project-body">
+                    <div class="project-tech">
+                        {% for tech in list.technologies.split %}
+                        <span class="tech-tag">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="project-title">{{ list.title }}</div>
+                    <div class="project-desc">{{ list.description }}</div>
+                    {% if list.collaborators %}
+                    <div class="project-team">Team: <span>{{ list.collaborators }}</span></div>
+                    {% endif %}
+                    {% if list.feedback %}
+                    <div class="project-feedback">"{{ list.feedback }}"</div>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <div class="project-actions">
+                        <a href="{% url 'edit_project' pk=list.pk %}"><i class="fas fa-pen"></i> Edit</a>
+                        <a href="{% url 'delete_project' pk=list.pk %}"><i class="fas fa-trash"></i> Delete</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <p style="color: var(--muted); grid-column: 1/-1;">No projects yet. Sign in to add your first one!</p>
+            {% endfor %}
+        </div>
+    </section>
 
-                                </div>
-                            </div>
+    <!-- CONTACT -->
+    <section id="contact" class="contact-section">
+        <div class="section-label">Let's talk</div>
+        <div class="section-title">Contact Me</div>
+        <div class="contact-grid">
+            <div>
+                <p style="color: var(--muted); margin-bottom: 2rem;">
+                    Open to new opportunities, collaborations, and interesting problems to solve.
+                    Feel free to reach out!
+                </p>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value">
+                            <a href="mailto:anuja.d.mestry@ucdconnect.ie">anuja.d.mestry@ucdconnect.ie</a>
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
-
-                <!-- Left and right controls -->
-                <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+                    <div>
+                        <div class="contact-label">LinkedIn</div>
+                        <div class="contact-value">
+                            <a href="https://www.linkedin.com/in/anuja-mestry1994/" target="_blank">anuja-mestry1994</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fab fa-github"></i></div>
+                    <div>
+                        <div class="contact-label">GitHub</div>
+                        <div class="contact-value">
+                            <a href="https://github.com/mestryanuja-create" target="_blank">mestryanuja-create</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:center;">
+                <div style="text-align:center;">
+                    <div style="font-family: var(--font-display); font-size: 4rem; font-weight:800; color: var(--border); letter-spacing:-0.05em; line-height:1;">
+                        Let's<br><span style="color:var(--accent)">Build</span><br>Together
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </section>
 
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2025 Anuja Mestry · Built with Django · Hosted on PythonAnywhere</p>
+    </footer>
+
+</body>
 </html>
