@@ -4,5 +4,5 @@ from .models import Project
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = '__all__'
-    image = forms.ImageField(label='Profile Image', required=False)
+        fields = ['title', 'role', 'description', 'technologies', 'clients', 'image']
+    image = forms.ImageField(label='Project Image', required=False)

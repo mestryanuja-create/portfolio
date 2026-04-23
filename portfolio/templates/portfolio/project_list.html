@@ -744,15 +744,15 @@
                         {% endfor %}
                     </div>
                     <div class="project-title">{{ list.title }}</div>
-                    <div class="project-desc">{{ list.description }}</div>
-                    {% if list.collaborators %}
-                    <div class="project-team">Team: <span>{{ list.collaborators }}</span></div>
+                    {% if list.role %}
+                    <div style="font-size:0.8rem; color: var(--accent); font-weight:500; margin-bottom:0.5rem;">{{ list.role }}</div>
                     {% endif %}
-                    {% if list.feedback %}
-                    <div class="project-feedback">"{{ list.feedback }}"</div>
+                    <div class="project-desc">{{ list.description }}</div>
+                    {% if list.clients %}
+                    <div class="project-team"><i class="fas fa-globe" style="font-size:0.75rem; margin-right:0.3rem;"></i><span>{{ list.clients }}</span></div>
                     {% endif %}
                     {% if user.is_authenticated %}
-                    <div class="project-actions">
+                    <div class="project-actions" style="margin-top:1rem;">
                         <a href="{% url 'edit_project' pk=list.pk %}"><i class="fas fa-pen"></i> Edit</a>
                         <a href="{% url 'delete_project' pk=list.pk %}"><i class="fas fa-trash"></i> Delete</a>
                     </div>
